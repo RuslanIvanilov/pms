@@ -1,0 +1,17 @@
+[
+  {
+    "name": "rpt_A4.jrxml",
+    "minutes": "0",
+    "hour":  "1",
+    "dayOfWeek":"1,2,3,4,5"
+  },
+  {
+    "name": "rpt_A3_q.jrxml"
+  },
+  {
+    "name": "reportZero.jrxml",
+    "minutes": "0",
+    "hour":  "3"
+  }
+
+]
