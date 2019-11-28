@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.s7.staff.AppPropertySaver;
+import ru.s7.staff.User;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,6 +25,7 @@ public class MainController{
 
     public static final String PROPERTIES =  "app.properties";
     Properties properties;
+    User user;
 
     private Properties getProperty(){
         if(properties == null) {
@@ -43,17 +45,23 @@ public class MainController{
         Properties properties = getProperty();
         String appName =  properties.getProperty("app-name") ;
 
-        model.addAttribute("message", appName + " / " + properties.getProperty("main-frame-title")  );
-        model.addAttribute("main_frame_title" , appName+" "+properties.getProperty("main-frame-title") );
-        model.addAttribute("setup_admin_caption", properties.getProperty("settings-frame-name"));
-        model.addAttribute("templates_path", properties.getProperty("main-frame-template-path") );
-        model.addAttribute("templates_path_caption",   properties.getProperty("main-frame-template-caption")  );
-        model.addAttribute("reports_path", properties.getProperty("main-frame-reports-path") );
-        model.addAttribute("reports_path_caption",  properties.getProperty("main-frame-reports-caption")  );
-        model.addAttribute("template_list", getListOfFiles( properties, properties.getProperty("main-frame-template-path") ) );
-        model.addAttribute("report_list", getListOfFiles( properties, properties.getProperty("main-frame-reports-path") ) );
+        if (user != null && !user.getUserName().isEmpty()) {
+            model.addAttribute("message", appName + " / " + properties.getProperty("main-frame-title"));
+            model.addAttribute("main_frame_title", appName + " " + properties.getProperty("main-frame-title"));
+            model.addAttribute("setup_admin_caption", properties.getProperty("settings-frame-name"));
+            model.addAttribute("templates_path", properties.getProperty("main-frame-template-path"));
+            model.addAttribute("templates_path_caption", properties.getProperty("main-frame-template-caption"));
+            model.addAttribute("reports_path", properties.getProperty("main-frame-reports-path"));
+            model.addAttribute("reports_path_caption", properties.getProperty("main-frame-reports-caption"));
+            model.addAttribute("template_list", getListOfFiles(properties, properties.getProperty("main-frame-template-path")));
+            model.addAttribute("report_list", getListOfFiles(properties, properties.getProperty("main-frame-reports-path")));
 
-        return "main";
+            return "main";
+        } else {
+            model.addAttribute("app_name", properties.getProperty("app-name"));
+            model.addAttribute("auth_frame_caption", properties.getProperty("auth-frame-caption"));
+            return "auth";
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/setup" )
@@ -70,6 +78,18 @@ public class MainController{
         model.addAttribute("main_frame_reports_path_value", properties.getProperty("main-frame-reports-path") );
         model.addAttribute("main_frame_use_local_path", "Use home path from application" );
         model.addAttribute("main_frame_use_local_path_value", properties.getProperty("main-frame-use-local-path") );
+
+    }
+
+    @RequestMapping(method = RequestMethod.POST, value = "/auth" )
+    public String auth(@RequestParam("login") String login, @RequestParam("pass") String pass,ModelMap model) throws UnsupportedEncodingException {
+        System.out.println("AUTH is submitted! LOGIN: " + login + " PASS hashCode : " + pass.hashCode() );
+
+        if(user == null ){ user = new User(); }
+        user.setUserName(login);
+        user.setPassHash( Long.valueOf(pass.hashCode()) );
+
+        return initMain(model);
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/setup_save", produces = "text/plain;charset=UTF-8" )
@@ -81,7 +101,6 @@ public class MainController{
         AppPropertySaver.save(properties, path);
        return initMain(model);
     }
-
 
     public List<String> getListOfFiles(Properties properties, String directoryPath){
         String path = getPathByProperty(PROPERTIES);
