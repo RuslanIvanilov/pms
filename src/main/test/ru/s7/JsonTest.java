@@ -8,11 +8,10 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-import ru.s7.staff.Report;
-import ru.s7.staff.ReportScheduler;
-import ru.s7.staff.SchedulerDateFilter;
+import ru.s7.staff.*;
 
 import java.io.IOException;
+import java.util.List;
 
 public class JsonTest {
 
@@ -86,6 +85,31 @@ public class JsonTest {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+    }
+
+    @Test
+    public void shouldGetUserList(){
+        UserUtils userUtils = new UserUtils();
+        userUtils.loadFromJson();
+        List<User> userList = userUtils.getUserList();
+
+        for(User user : userList){
+            System.out.println("\n"+user.toString());
+        }
+
+    }
+
+    @Test
+    public void shouldFindUser(){
+        String userNameTest = "ruaiar2";
+        Long passHashTest = Long.valueOf("123");
+
+        User user = new User();
+        user.setUserName(userNameTest);
+        user.setPassHash(passHashTest);
+
+        System.out.println("user exists: " + user.isExists() );
 
     }
 

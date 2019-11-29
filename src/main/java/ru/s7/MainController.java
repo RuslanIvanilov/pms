@@ -45,7 +45,7 @@ public class MainController{
         Properties properties = getProperty();
         String appName =  properties.getProperty("app-name") ;
 
-        if (user != null && !user.getUserName().isEmpty()) {
+        if ( user != null && user.isExists() && !user.getBlocked() ) {
             model.addAttribute("message", appName + " / " + properties.getProperty("main-frame-title"));
             model.addAttribute("main_frame_title", appName + " " + properties.getProperty("main-frame-title"));
             model.addAttribute("setup_admin_caption", properties.getProperty("settings-frame-name"));
@@ -55,6 +55,11 @@ public class MainController{
             model.addAttribute("reports_path_caption", properties.getProperty("main-frame-reports-caption"));
             model.addAttribute("template_list", getListOfFiles(properties, properties.getProperty("main-frame-template-path")));
             model.addAttribute("report_list", getListOfFiles(properties, properties.getProperty("main-frame-reports-path")));
+
+            model.addAttribute("user_login", user.getUserName() );
+            model.addAttribute("user_full_name", user.getFullName() );
+            model.addAttribute("user_position", user.getPosition() );
+            model.addAttribute("setup_button_disabled", user.getAdmin()?"":"disabled" );
 
             return "main";
         } else {
@@ -78,7 +83,6 @@ public class MainController{
         model.addAttribute("main_frame_reports_path_value", properties.getProperty("main-frame-reports-path") );
         model.addAttribute("main_frame_use_local_path", "Use home path from application" );
         model.addAttribute("main_frame_use_local_path_value", properties.getProperty("main-frame-use-local-path") );
-
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/auth" )
@@ -86,10 +90,19 @@ public class MainController{
         System.out.println("AUTH is submitted! LOGIN: " + login + " PASS hashCode : " + pass.hashCode() );
 
         if(user == null ){ user = new User(); }
-        user.setUserName(login);
+        user.setUserName( login );
         user.setPassHash( Long.valueOf(pass.hashCode()) );
 
         return initMain(model);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/auth" )
+    public String auth(ModelMap model) throws UnsupportedEncodingException {
+        if(user == null ){ user = new User(); }
+        user.clear();
+        model.addAttribute("app_name", properties.getProperty("app-name"));
+        model.addAttribute("auth_frame_caption", properties.getProperty("auth-frame-caption"));
+        return "auth";
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/setup_save", produces = "text/plain;charset=UTF-8" )

@@ -50,6 +50,7 @@
                 <directory>${basedir}/src/main/resources</directory>
                 <includes>
                     <include>app.properties</include>
+                    <include>user.json</include>
                 </includes>
             </resource>
         </resources>

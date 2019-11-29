@@ -52,15 +52,16 @@
       method="post"
 >
 -->
-    <form style="zoom: 200%" method="post" action="setup">
-<!-- <h2>${message}</h2>  -->
+<form name="toFormAuth" method="post" action="auth"></form>
 
+    <form style="zoom: 100%" method="post" action="setup">
+<!-- <h2>${message}</h2>  -->
 <table>
     <tr>
-        <td> <label>${message}</label> </td>
+        <td> <label onclick="window.location.href='/pms_war_exploded/auth'" >${message}</label> </td>
         <td align="right">
            <!-- <button style="font-size: 8px;" id="setup_action" onclick="alert('Not have permission!')">${setup_admin_caption}</button>  -->
-            <button style="font-size: 8px;" id="setup_action" action="setup">${setup_admin_caption}</button>
+            <button style="font-size: 8px;" id="setup_action" action="setup" ${setup_button_disabled} >${setup_admin_caption}</button>
         </td>
     </tr>
     <tr>
@@ -78,7 +79,7 @@
 <!-- <div style="width: 230px; overflow-x: none; overflow-y: none; height: 160px;">  -->
     <tr>
         <td>
-            <select id="fileselect" size="11" class="select" onchange="requestSelected('fileselect)">
+            <select style="overflow-y: scroll; overflow-x: hidden;" id="fileselect" size="12" class="select" onchange="requestSelected('fileselect)">
                 <c:forEach var="listValue" items="${template_list}">
                 <option selected value='${listValue}' class='option'>${listValue}</option>
                 </c:forEach>
@@ -87,7 +88,7 @@
 
 <!-- </div> file:///Users/ruaiar2/temp/reports/report12_123.html onclick=openFile('${listReportValue}')> ${listReportValue} </option> -->
        <td>
-    <select id="reportselect" size="11" class="select">
+    <select style="overflow-y: scroll; overflow-x: hidden;" id="reportselect" size="12" class="select">
             <c:forEach var="listReportValue" items="${report_list}">
                 <option selected value='${listReportValue}' class='option' onclick='openFile("${listReportValue}")'> ${listReportValue} </option>
             </c:forEach>
@@ -95,7 +96,7 @@
        </td>
     </tr>
 </table>
-
+        <p align="left" style="font-size: 7px;"> &nbsp;&nbsp; ${user_login} : ${user_full_name} : ${user_position}</p>
 
     </form>
 </body>

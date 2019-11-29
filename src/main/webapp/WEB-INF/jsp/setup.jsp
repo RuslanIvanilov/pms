@@ -10,7 +10,7 @@
 </head>
 <body>
 
-<form style="zoom: 200%" method="post" action="setup_save">
+<form style="zoom: 100%" method="post" action="setup_save">
     <h2>${settings_name}</h2>
 
 <table>

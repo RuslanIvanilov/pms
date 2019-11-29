@@ -6,9 +6,8 @@
     "user_surname": "Ivanilov",
     "user_patronymic": "Gennady",
     "position": "software developer",
-    "blocked": "false",
-    "pass_hash": "48690",
-    "admin": "true"
+    "blocked": "1",
+    "pass_hash": "48690"
   },
   {
     "user_id": "2",
@@ -31,7 +30,7 @@
         "user_first_name": "Pavlov",
         "user_surname": "Michael",
         "user_patronymic": "Sergeevich",
-        "pass_hash": "48690"
+        "pass_hash": "1234"
    }
 
 ]
