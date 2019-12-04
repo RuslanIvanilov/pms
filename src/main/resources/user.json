@@ -32,6 +32,7 @@
         "user_surname": "Michael",
         "user_patronymic": "Sergeevich",
         "pass_hash": "48690"
+        "admin": "true"
    }
 
 ]

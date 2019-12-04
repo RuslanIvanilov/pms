@@ -43,6 +43,7 @@ public class MainController{
     @RequestMapping(method = RequestMethod.GET, value={"/","main"})
     public String initMain(ModelMap model) throws UnsupportedEncodingException {
         Properties properties = getProperty();
+
         String appName =  properties.getProperty("app-name") ;
 
         if ( user != null && user.isExists() && !user.getBlocked() ) {

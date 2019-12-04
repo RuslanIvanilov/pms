@@ -33,8 +33,23 @@
         */
 
         function openFile(fileName){
-            var file = 'file://///opt/reports/'+fileName;
-            window.open(file, "JReport");
+            var file = 'file:///opt/reports/'+fileName;
+           // window.open(file, "JReport");
+           // window.location.href = ("http:file:///Users/ruaiar2/temp/reports/report12_123.html");"
+            var url = "http://localhost:8000/reports/План ПО ЦРД.pdf";
+            window.open(url, '_blank');
+
+            //window.location.href =(url);
+            /*
+            if (window.File && window.FileReader && window.FileList && window.Blob) {
+                // Great success! All the File APIs are supported.
+            } else {
+                alert('The File APIs are not fully supported in this browser.');
+            }
+            */
+
+
+
         }
 
     </script>
@@ -99,5 +114,7 @@
         <p align="left" style="font-size: 7px;"> &nbsp;&nbsp; ${user_login} : ${user_full_name} : ${user_position}</p>
 
     </form>
+
+ <!-- <a href="http:file:///Users/ruaiar2/temp/reports/report12_123.html">Clik this</a>  -->
 </body>
 </html>
